@@ -4,7 +4,7 @@ import json
 from pandas.io.json import json_normalize
 
 
-coinTypes = {"btc": 'btc.csv', 
+coin_types = {"btc": 'btc.csv', 
 			"eth": 'eth.csv',
 			"dash": "dash.csv",
 			"ltc": "ltc.csv",
@@ -23,10 +23,10 @@ coinTypes = {"btc": 'btc.csv',
 			"bch": "bch.csv"
 			}
 
-for coinType in coinTypes:
-	print(coinType)
+for coin_type, filename in coin_types.items():
+	print(filename)
 
-	endpoint = "https://min-api.cryptocompare.com/data/histoday?fsym="+str(coinType).upper()+"&tsym=USD&limit=300&aggregate=1&e=CCCAGG"
+	endpoint = "https://min-api.cryptocompare.com/data/histoday?fsym="+str(coin_type).upper()+"&tsym=USD&limit=300&aggregate=1&e=CCCAGG"
 
 	prices = urllib.request.urlopen(endpoint).read()
 
@@ -39,5 +39,8 @@ for coinType in coinTypes:
 	prices = prices.iloc[::-1]
 
 	print(prices)
-	prices.to_csv(str(coinType)+".csv", index=False)
+    
+
+	prices.to_csv(filename, index=False)
+
 	pass

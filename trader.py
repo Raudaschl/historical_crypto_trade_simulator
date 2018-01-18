@@ -1,6 +1,9 @@
 import pandas as pd
+# import emoji
+import datetime as dt     
 
 
+today = dt.datetime.today().strftime("%Y-%m-%d")
 profit = 0
 dividends = 0
 
@@ -246,6 +249,8 @@ def buyWeightsBuild():
 
 def totalArrayValue(array):
 
+	global today
+
 	totalValue = 0
 	for item in array:
 		coins = item["coins"]
@@ -254,7 +259,7 @@ def totalArrayValue(array):
 		df = pd.read_csv(coinTypes[coin])
 		df['Date'] = pd.to_datetime(df['Date'])
 
-		row = df[df['Date'] == "2018-01-04"]
+		row = df[df['Date'] == today]
 
 		if type(row['Price'].values[0]) is str:
 			price = float(row['Price'].values[0].replace(',',''))
@@ -271,6 +276,8 @@ def totalArrayValue(array):
 
 def totalArrayValueDF(array):
 
+	global today
+
 	totalValue = 0
 	for index, item in array.iterrows():
 		coins = item["coins"]
@@ -279,7 +286,7 @@ def totalArrayValueDF(array):
 		df = pd.read_csv(coinTypes[coin])
 		df['Date'] = pd.to_datetime(df['Date'])
 
-		row = df[df['Date'] == "2018-01-04"]
+		row = df[df['Date'] == today]
 
 		if type(row['Price'].values[0]) is str:
 			price = float(row['Price'].values[0].replace(',',''))
@@ -295,7 +302,7 @@ def totalArrayValueDF(array):
 	pass
 
 
-print("original Value "+str(totalArrayValue(bitCoinOrders)))
+print("original Value $"+str(totalArrayValue(bitCoinOrders)))
 
 for index, order in enumerate(bitCoinOrders):
 	calculate("bitCoinOrders", index, order["coin"], order["buyPrice"], order["coins"], order["date"])
@@ -303,7 +310,7 @@ for index, order in enumerate(bitCoinOrders):
 
 # print(len(dfAdditionalOrders))
 # print("profits "+str(profit))
-print("Original Dividends "+str(dividends))
+print("Original Dividends $"+str(dividends))
 
 
 for index, order in dfAdditionalOrders.iterrows():
@@ -328,6 +335,9 @@ print("Final Dividends "+str(dividends))
 
 after = totalArrayValue(bitCoinOrders)
 additional = totalArrayValueDF(dfAdditionalOrders)
-print("Original Investments Value "+str(after))
-print("New Investments Value "+str(additional))
-print("Final Total Value "+str(after+additional+dividends))
+print("Original Investments Value $"+str(after))
+print("New Investments Value $"+str(additional))
+
+
+print("Final Total Value $"+str(after+additional+dividends))
+# print("Final Total Value $"+str(after+additional+dividends)+emoji.emojize(' :moneybag: :moneybag: :moneybag:', use_aliases=True))
